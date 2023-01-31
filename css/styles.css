@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.content {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    overflow-y: hidden;
+}
+
+#particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+}
+
+.sidenav {
+    border-bottom-right-radius: 20px;
+    width: fit-content;
+    height: 20px;
+    z-index: 1;
+    background: rgba(0,0,0,0.5);
+    padding: 10px;
+    color: #fff;
+    font-family:  "Arial", sans-serif;
+    text-align: center;
+    margin-right: auto;
+    overflow: hidden;
+    transition: height 0.5s;
+    -webkit-transition: height 0.5s;
+}
+
+.sidenav:hover {
+    height: 80px;
+}
+
+.sidenav ul {
+    list-style: none;
+    padding-left: 10px;
+}
+
+.sidenav li {
+    list-style: none;
+    margin: 0 0 0 0;
+    padding-top: 10px;
+}
+
+h1 {
+    font-family: "Arial", "Helvetica Neue", serif;
+    text-align: center;
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.fps_class{
+    width: fit-content;
+    height: fit-content;
+    margin-left: auto;
+    font-family:  "Arial", sans-serif;
+    text-align: center;
+    padding: 10px;
+    overflow-x: hidden;
+    z-index: 1;
+    background: rgba(0,0,0,0.5);
+    border-bottom-left-radius: 10px;
+}
+
+#fps_counter{
+    font-size: small;
+    text-align: center;
+    color: rgb(71, 216, 42);
+}

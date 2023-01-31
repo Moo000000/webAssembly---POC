@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particles</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="src/wasm.js"></script>
+</head>
+<body>
+    <div class="content">
+        <div class="sidenav">
+            <ul>
+                <li>
+                    <input type="radio" id="javascript" name="select_implementation" onclick="updateParticles()" value="javascript" checked>
+                    <label for="javascript">Javascript</label>
+                    <input type="radio" id="wasm" name="select_implementation" onclick="updateParticles()" value="wasm">
+                    <label for="wasm">WebAssembly</label>
+                </li>
+                <li>
+                    <div class="numberOfParticles">
+                        <label for="numOfParticles">Amount of particles:</label>
+                        <select name="numOfParticles" id="numOfParticles" onChange="updateParticles()">
+                            <option value="100">100</option>
+                            <option value="250">250</option>
+                            <option value="500">500</option>
+                            <option value="1000">1000</option>
+                            <option value="2000">2000</option>
+                            <option value="4000">4000</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="fps_class">
+            <p id = "fps_counter">
+                <span id="fps">--</span> FPS
+            </p>
+        </div>
+    
+        <canvas id="particles"></canvas>
+    </div>
+    <script src="src/particles.js"></script>
+</body>
+</html>
