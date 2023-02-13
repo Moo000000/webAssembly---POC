@@ -4,9 +4,11 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 var anim;
 
+var lengthSlider = document.getElementById("length");
+
 var particles = [];
 let amount = 100;
-let r = 1;              // radius of particles
+let r = 1.5;              // radius of particles
 let l = 1;            // length that a particle moves between each frame
 let color = "#00ff3c";       // color of particle
 let stuckColor = "#6d46eb";  // color of a stuck particle
@@ -30,6 +32,16 @@ document.addEventListener('keydown', (e) => {
     }
 })
 
+lengthSlider.oninput = () => {
+    l = lengthSlider.value;
+    Module.ccall(
+        'setVariables',
+        null,
+        ['number', 'number', 'number', 'number'],
+        [canvas.width, canvas.height, l, r]
+    );
+}
+
 function updateParticles() {
 
     cancelAnimationFrame(anim);
@@ -42,14 +54,14 @@ function updateParticles() {
         Module.ccall(
             'setVariables',
             null,
-            ['number', 'number', 'number'],
-            [canvas.width, canvas.height, l]
+            ['number', 'number', 'number', 'number'],
+            [canvas.width, canvas.height, l, r]
         );
         Module.ccall(
             'initParticles',
             null,
-            ['number', 'number'],
-            [amount, r]
+            ['number'],
+            [amount]
         );
         animateParticles_wasm();
     } else {
@@ -134,8 +146,7 @@ function releaseAll() {
 
 function animateParticles(time) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    //var startUpdateTime = performance.now();
-    //var time = performance.now();
+
     frame++;
     if (time - startTime > 1000) {
         fps.innerHTML = (frame / ((time - startTime) / 1000)).toFixed(1);
@@ -146,8 +157,6 @@ function animateParticles(time) {
         particles[i].update(i);
     }
 
-    //var endUpdateTime = performance.now();
-    //console.log(`Updating and drawing all particles took: ${endUpdateTime-startUpdateTime}`);
     anim = requestAnimationFrame(animateParticles);
 }
 
@@ -160,7 +169,7 @@ function animateParticles_wasm(time) {
         fps.innerHTML = (frame / ((time - startTime) / 1000)).toFixed(1);
         startTime = time;
         frame = 0;
-      }
+    }
     Module.ccall(
         'update',
         null,
@@ -193,19 +202,19 @@ function resetParticlesArrays() {
 
 // invoke C initParticles function
 Module.onRuntimeInitialized = () => {
-    // set w, h, l
+    // set w, h, l, r
     Module.ccall(
         'setVariables',
         null,
-        ['number', 'number', 'number'],
-        [canvas.width, canvas.height, l]
+        ['number', 'number', 'number', 'number'],
+        [canvas.width, canvas.height, l, r]
     );
     // init particles
     Module.ccall(
         'initParticles',
         null,
-        ['number', 'number'],
-        [amount, r]
+        ['number'],
+        [amount]
     );
     initParticles();
     //animateParticles_wasm();

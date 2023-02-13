@@ -5,9 +5,6 @@
 #include <stdio.h>
 #include <emscripten.h>
 
-// 
-// emcc -O3 particles.c -o wasm.js -s NO_EXIT_RUNTIME=1 -s EXPORTED_RUNTIME_METHODS=[ccall]
-
 typedef struct {
     double x;           
     double y;           
@@ -18,8 +15,8 @@ Particle *particles;
 int n;
 int width;
 int height;
-int length;
-int r;
+double length;
+double r;
 
 EM_JS(void, draw_particle, 
     (double x, double y, double r, int isMoving), {
@@ -32,9 +29,8 @@ double randomNum() {
 }
 
 EMSCRIPTEN_KEEPALIVE
-void initParticles(int amount, double radius) {
+void initParticles(int amount) {
     n = amount;
-    r = radius;
     particles = malloc(sizeof(Particle) * n);
     for (int i=0; i < n; i++) {
         particles[i].x = randomNum() * width;
@@ -44,9 +40,8 @@ void initParticles(int amount, double radius) {
 }
 
 EMSCRIPTEN_KEEPALIVE
-void reInitParticles(int amount, double radius) {
+void reInitParticles(int amount) {
     n = amount;
-    r = radius;
     particles = realloc(particles, sizeof(Particle) * n);
     for (int i=0; i < n; i++) {
         particles[i].x = randomNum() * width;
@@ -65,7 +60,6 @@ void doCollision(Particle* p, int i) {
     for (int j = 0; j < n; j++) {
         if (i == j) continue;  
         if ( sqrt(pow(p->x - particles[j].x, 2) + pow(p->y - particles[j].y, 2)) <= 2*r ) {
-            //if (!particles[i].isMoving) 
             p->isMoving = 0;
        }
     }
@@ -117,19 +111,13 @@ void update() {
 }
 
 EMSCRIPTEN_KEEPALIVE
-void drawParticle(double x, double y, double r, int isMoving) {
-    draw_particle(x, y, r, isMoving);
-}
-
-EMSCRIPTEN_KEEPALIVE
-void setVariables(int w, int h, int l) {
+void setVariables(int w, int h, double l, double rad) {
     width = w;
     height = h;
     length = l;
+    r = rad;
 }
 
-
-EMSCRIPTEN_KEEPALIVE
 int main() {
     return 0;
 }
