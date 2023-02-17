@@ -32,6 +32,10 @@ document.addEventListener('keydown', (e) => {
     }
 })
 
+function closePopup() {
+    document.getElementById("overlay").style.display = "none";
+}
+
 lengthSlider.oninput = () => {
     l = lengthSlider.value;
     Module.ccall(
@@ -220,3 +224,8 @@ Module.onRuntimeInitialized = () => {
     //animateParticles_wasm();
     animateParticles();
 }
+
+window.onload = () => {
+    document.getElementById("overlay").style.display = "block";
+}
+
